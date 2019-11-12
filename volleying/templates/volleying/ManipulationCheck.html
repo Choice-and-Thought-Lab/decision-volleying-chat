@@ -1,0 +1,14 @@
+
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block content %}
+
+{% for field in form %}
+    {% formfield field %}
+{% endfor %}
+
+{% next_button %}
+
+{% endblock %}

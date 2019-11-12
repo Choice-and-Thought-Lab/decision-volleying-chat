@@ -1,0 +1,33 @@
+{% extends "volleying/Page.html" %}
+{% load static %}
+{% load otree static %}
+{% load checkboxfilter %}
+{% block title %}
+Trailer for {{player.group.last_movie_name}}
+{% endblock %}
+
+{% block content %}
+
+<p> You and your partner chose to watch the trailer for {{player.group.last_movie_name}} together. Now, take time to watch the trailer and share your reactions with your partner and discuss what you think of the trailer using the chatbox below. </p>
+
+<p>If the audio for your movie trailer does not start automatically, please hover your mouse over the bottom left corner of the display for the movie trailer and click the "unmute" button that appears. </p>
+
+<div class="trailers"> 
+    <div class="trailerColumn">
+        {% for form in movie_formset %}
+            {% for field in form %}
+                {% if field.field.widget|is_checkbox %}
+                    {{ field.label }}
+                {% else %}
+                    {{ field }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+</div>
+<br>
+<br>
+
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Instructions
+{% endblock %}
+
+{% block content %}
+<p> In this study, you will be randomly assigned a partner with whom you will pick a movie trailer to watch together. </p>
+
+<p> On the next page, you will have the opportunity to chat with your partner and choose a movie trailer to watch together.</p>
+
+{% if player.role == "player1" %}
+<p> <b> Important instructions: </b></p> 
+<p> People often make the mistake of <b>
+{% if player.group.volleyLots %}
+  not going back and forth enough
+{% else %}
+  going back and forth too much 
+{% endif %} </b>   
+</b> when making joint decisions.  </p>
+<p> As you chat with your partner about the decision, be sure <b>
+{% if player.group.volleyLots %}
+to go back and forth enough
+{% else %}
+  not to go back and forth too much 
+{% endif %} </b> 
+before choosing a movie trailer to watch. </p>
+
+<p> Try to go back and forth with your partner <b> 
+{% if player.group.volleyLots %}
+as much 
+{% else %}
+as little 
+{% endif %} as possible </b> 
+before arriving at a decision.</p> 
+
+{% endif %}
+
+{% endblock %}

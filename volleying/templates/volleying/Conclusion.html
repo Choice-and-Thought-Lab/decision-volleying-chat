@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load static %}
+
+{% block content %}
+
+{% if player.timed_out %}
+  <p> Either you or your partner took too long completing the survey, so you could not finish.</p>
+{% else %}
+<p> Thank you for participating in this study! </p>
+{% endif %}
+<br>
+{% comment %}
+<p>
+  Please enter this secret code into mTurk to receive payment for this HIT:
+  <h3>
+    {{ player.get_code }}
+  </h3>
+
+</p>
+{% endcomment %}
+{% endblock %}

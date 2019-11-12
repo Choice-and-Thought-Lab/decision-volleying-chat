@@ -1,0 +1,15 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+
+{% if player.madeFinalDecision %}
+  <p> You made the final decision to watch the trailer for <strong> {{player.group.last_movie_name}}</strong>!</p>
+{% else %}
+  <p> Your partner made the final decision to watch the trailer for <strong> {{player.group.last_movie_name}}</strong>! </p>
+{% endif %}
+
+<p> On the next page, you will watch the trailer for <strong>  {{player.group.last_movie_name}}</strong>.
+
+
+{% endblock %}

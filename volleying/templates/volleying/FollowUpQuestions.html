@@ -1,0 +1,17 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load static %}
+
+{% block title %}
+Follow-up Questions
+{% endblock %}
+
+{% block content %}
+
+    {% for field in form %}
+        {% formfield field %}
+    {% endfor %}
+
+    {% next_button %}
+
+{% endblock %}
