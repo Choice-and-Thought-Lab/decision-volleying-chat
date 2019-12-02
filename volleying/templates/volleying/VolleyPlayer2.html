@@ -1,0 +1,87 @@
+{% extends "global/Page.html" %}
+{% load checkboxfilter %}
+{% load otree static %}
+{% load static %}
+
+{% block content %}
+
+<p> Take a few minutes to chat with your partner and choose a movie trailer to watch together from the list provided. </p>
+
+{% if player.role == "player1" %}
+<p> <b> Remember: </b> </p>
+<p> Try to go back and forth with your partner <b> 
+{% if player.group.volleyLots %} 
+as much
+{% else %}
+as little 
+{% endif %} as possible
+</b> before arriving at a decision. </p> 
+<p> Once you and your partner have decided on a movie trailer, please select the movie trailer that you both chose. Then, hit the next button to watch that trailer together! </p>
+{% else %}
+<p>Once you and your partner have decided on a movie trailer, your partner will select the movie trailer that you both chose. After they choose, make sure to "refresh" the page on your browser. Then, you'll watch that trailer together!</p> 
+{% endif %}
+<h5> Which movie trailer would you and your partner like to watch together? </h5>
+<div class="trailers"> 
+<div class="trailerColumn"> 
+{% for form in movie_formset %}
+    {% for field in form %}
+        {% if field.field.widget|is_checkbox and player.role == "player1" %}
+            {{ field }} {{ field.label }}
+        {% elif field.field.widget|is_checkbox and player.role == "player2" %}
+            {{ field.label }}
+        {% else %}
+            {{ field }}
+        {% endif %}
+    {% endfor %}
+<br>
+{% endfor %}
+</div>
+
+</div>
+{% next_button %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js" integrity="sha256-IxGLmHPQulZvYG3Kon9cB4ssL2JZ6EcP+nGHURmJe10=" crossorigin="anonymous"></script>
+
+<script>
+    // hide the oTree nextButton
+    var nextButton = document.getElementsByClassName("otree-btn-next btn btn-primary")[0];
+    nextButton.style.visibility = 'hidden';
+    // set up the path for the websocket
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ws_path = ws_scheme + '://' + window.location.host + "/volleying/finished,{{ player.group_id }},{{ player.id_in_group }},{{ player.session.code }}/";
+    console.log("ws_path=" + ws_path);
+    var socket = new ReconnectingWebSocket(ws_path);
+    // define what to do when the socket receives messages, opens, closes
+    socket.onmessage = function (e) {
+        console.log("socket.onmessage() called...");
+        handleMessage(e)
+    };
+    socket.onopen = function () {
+        console.log('WebSocket connected');
+    };
+    socket.onclose = function () {
+        console.log('WebSocket disconnected');
+    };
+    // define what happens when someone clicks the done_button
+    // ... in our case we want to send the "done" message to the server
+    $('#done_button').bind('click', function(e) {
+        var data = {
+            'message': 'done',
+        };
+        socket.send(JSON.stringify(data));
+    });
+    // handle incoming messages - we parse the data and if it's the server saying we're done, move on to the next
+    // page by clicking the nextButtons
+    function handleMessage(e) {
+        console.log("handleMessage() called.");
+        var data = JSON.parse(e.data);
+        console.log("data="+data);
+        console.log("data.message==" + data.message);
+        if (data.message === "done") {
+            nextButton.click();
+        }
+    }
+</script>
+{% endblock %}
+{% endblock %}

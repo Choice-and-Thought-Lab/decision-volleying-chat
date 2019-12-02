@@ -20,7 +20,6 @@ class Subsession(BaseSubsession):
             print(group.goal)
             group.chat = str(group_id) + 'chat1'
             group.chat2 = str(group_id) + 'chat2'
-
             group.generate_movie_options()
 
 class Group(BaseGroup):

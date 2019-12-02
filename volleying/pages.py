@@ -54,7 +54,6 @@ def sort_movies(movie):
 
 class Volley(Page):
     form_model = 'group'
-    template_name = 'volleying/Volley.html'
 
     def vars_for_template(self):
         remaining_movies = self.player.group.get_remaining_movies()
@@ -76,7 +75,7 @@ class Volley(Page):
 
             all_movies = MovieSelection.objects.filter(group__exact=self.player.group)
             remaining_movies = all_movies.filter(isRemaining__exact=True)
-
+            
             submitted_data = self.form.data
         
             movies_by_id = {mov.pk: mov for mov in remaining_movies}
@@ -128,12 +127,21 @@ class Volley(Page):
             pass
 
 class VolleyPlayer1(Volley):
+    template_name = 'volleying/VolleyPlayer1.html'
     def is_displayed(self):
-        return (not self.player.timed_out) and self.group.volleying()
+        return (not self.player.timed_out) and self.group.volleying() and (self.player.id_in_group == 1)
 
 class VolleyPlayer2(Volley):
+    template_name = 'volleying/VolleyPlayer2.html'
+
     def is_displayed(self):
         return (not self.player.timed_out) and self.group.volleying() and (self.player.id_in_group == 2)
+
+class WaitTrailer(WaitPage):
+    template_name = 'volleying/WaitTrailer.html'
+
+    def after_all_players_arrive(self):
+        self.is_displayed = True
 
 class TrailerIntro(Page):
     timeout_seconds = 15
@@ -205,9 +213,10 @@ page_sequence = [
     Introduction,
     ParticipantInfo,
     ChatWaitPage,
-    #Chat,
     Instructions,
+    VolleyPlayer2,
     VolleyPlayer1,
+    WaitTrailer,
     TrailerIntro,
     Results,
     FollowUpQuestions,
