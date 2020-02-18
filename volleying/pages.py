@@ -148,7 +148,7 @@ class TrailerSelectWaitPage(WaitPage):
 
 
 class TrailerIntro(Page):
-    timeout_seconds = 15
+    timeout_seconds = 5
 
     def vars_for_template(self):
         self.player.madeFinalDecision = not self.player.isSelecting
