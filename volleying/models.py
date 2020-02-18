@@ -5,7 +5,6 @@ from otree.api import (
 )
 from otree.db.models import Model, ForeignKey
 
-
 class Constants(BaseConstants):
     name_in_url = 'volleying'
     players_per_group = 2
@@ -24,18 +23,16 @@ class Subsession(BaseSubsession):
 
             group.generate_movie_options()
 
-
 class Group(BaseGroup):
 
     def generate_movie_options(self):
         for name, movie in self.movies().items():
-            movieObj = self.movieselection_set.create(
-                group=self, key=name, name=movie["title"], description=movie["description"], embeddedVideo=movie["videoId"], isRemaining=True, isChecked=False)
+            movieObj = self.movieselection_set.create(group=self, key=name, name=movie["title"], description=movie["description"], embeddedVideo=movie["videoId"], isRemaining=True, isChecked=False)
             movieObj.save()
 
     def movies(self):
         return {'intouchables': {"videoId": "34WIbmXkewU", "description": "<strong> The Intouchables </strong>(Foreign) – two very different men bond and develop a very close relationship", "title":  "The Intouchables"},
-                'starfish': {"videoId": "U5XnW3c8P-Y", "description": "<strong> Starfish </strong>(Science Fiction) – a young woman struggles with the death of her best friend", "title": "Starfish"},
+                'starfish': {"videoId": "U5XnW3c8P-Y", "description": "<strong> Starfish </strong>(Science Fiction) – a young woman struggles with the death of her best friend", "title": "Starfish"}, 
                 'versailles': {"videoId": "LQW9Ks0GZUQ", "description": "<strong>The Queen of Versailles </strong>(Documentary) – the economic crisis threatens the fortune of a billionaire family", "title": "The Queen of Versailles"},
                 'hush': {"videoId": "Q_P8WCbhC6s", "description": "<strong>Hush </strong>(Horror) – a deaf writer living in the woods fights for her life when a killer appears in her window", "title": "Hush"},
                 'father': {"videoId": "_bfqsNh6U7c", "description": "<strong> Like Father </strong> (Rom-com) – a woman left at the altar takes her estranged father on her honeymoon", "title": "Like Father"},
@@ -46,8 +43,8 @@ class Group(BaseGroup):
                 'survivalist': {"videoId": "KNADbtHsIU8", "description": "<strong>The Survivalist </strong>(Thriller) - a survivalist hides in the forest protecting his crop from intruders", "title": "The Survivalist"},
                 'carol': {"videoId": "679wr31SXWk", "description": "<strong>Carol </strong>(Romance) - two women develop a fast bond that becomes a love with complicated consequences", "title": "Carol"},
                 'wild': {"videoId": "tn2-GSqPyl0", "description": "<strong> Wild </strong>(Adventure) - a woman's solo undertakes a hike as a way to recover from a recent personal tragedy", "title": "Wild"}}
-
-    eliminateNegative = models.BooleanField(initial=True)
+    
+    eliminateNegative = models.BooleanField(initial=True) 
 
     goal = models.BooleanField()
     chat = models.StringField()
@@ -86,16 +83,14 @@ class Group(BaseGroup):
 
     volley = models.LongStringField(initial="")
 
-
 class MovieSelection(Model):
-    group = ForeignKey(Group)
+    group = ForeignKey(Group) 
     key = models.StringField()
     name = models.StringField()
     description = models.StringField()
     isRemaining = models.BooleanField()
     isChecked = models.BooleanField(initial=False, widget=CheckboxInput)
     embeddedVideo = models.StringField()
-
 
 class Player(BasePlayer):
 
@@ -116,9 +111,10 @@ class Player(BasePlayer):
         if not self.timed_out:
             code = "movies" + str(randint(1000, 9999))
         else:
-            code = "timeout" + str(randint(1000, 9999))
+            code =  "timeout" + str(randint(1000, 9999))
         self.mturkCompletitionCode = code
         return code
+
 
     selectedMovie = models.StringField(initial="")
 
@@ -145,37 +141,33 @@ class Player(BasePlayer):
     manip_question = models.StringField(
         label="In this study, what were you instructed to do?",
         widget=widgets.RadioSelect,
-        choices=["Choose the movie that I personally would enjoy the most",
-                 "Choose the movie that I think my partner would enjoy the most"]
+        choices=["Choose the movie that I personally would enjoy the most", "Choose the movie that I think my partner would enjoy the most"]
     )
 
     satisfied_trailer = models.IntegerField(
         label="How satisfied are you with the choice you came to with your partner?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [
-            5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
         widget=widgets.RadioSelect,
     )
 
     satisfied_process = models.IntegerField(
         label="How satisfied are you with the process by which you and your partner chose the movie trailer?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [
-            5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
         widget=widgets.RadioSelect,
     )
 
     satisfied_treated = models.IntegerField(
         label="How satisfied are you with how you were treated by your partner?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [
-            5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
         widget=widgets.RadioSelect,
     )
 
     willing_to = models.IntegerField(
         label="How willing would you be to make a decision with this partner again in the future?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [
-            5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
         widget=widgets.RadioSelect,
     )
+
 
     partner_experience = models.LongStringField(
         label="Explain how your experience with your partner was:",
@@ -211,7 +203,7 @@ class Player(BasePlayer):
     age = models.IntegerField(
         label="how old are you?",
         min=18,
-        max=130,
+        max=130, 
         blank=True
     )
     race = models.IntegerField(
@@ -247,3 +239,4 @@ class Player(BasePlayer):
 
     comment = models.LongStringField(
         label="Do you have any comments for the researchers? (Optional)", blank=True)
+ 

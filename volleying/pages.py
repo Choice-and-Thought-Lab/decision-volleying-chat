@@ -47,7 +47,7 @@ class Chat(Page):
 
 class Instructions(Page):
     def get_timeout_seconds(self):
-        return 20
+        return 2
 
 
 def sort_movies(movie):
@@ -60,12 +60,12 @@ class Volley(Page):
 
     def vars_for_template(self):
         remaining_movies = self.player.group.get_remaining_movies()
-
+        
         question_formset = MovieFormset(queryset=MovieSelection.objects.filter(
             group__exact=self.player.group).filter(isRemaining__exact=True))
         for (form, model) in zip(question_formset, remaining_movies):
             form.setLabel(model.description)
-
+        
         return {
             'movie_formset': question_formset
         }
@@ -220,7 +220,7 @@ page_sequence = [
     ParticipantInfo,
     ChatWaitPage,
     Instructions,
-    VolleyPlayer1,
+    Volley,
     TrailerSelectWaitPage,
     TrailerIntro,
     Results,
