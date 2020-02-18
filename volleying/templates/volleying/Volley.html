@@ -18,7 +18,7 @@ as little
 </b> before arriving at a decision. </p> 
 <p> Once you and your partner have decided on a movie trailer, please select the movie trailer that you both chose. Then, hit the next button to watch that trailer together! </p>
 {% else %}
-<p>Once you and your partner have decided on a movie trailer, your partner will select the movie trailer that you both chose. After they choose, make sure to "refresh" the page on your browser. Then, you'll watch that trailer together!</p> 
+<p>Once you and your partner have decided on a movie trailer, your partner will select the movie trailer that you both chose. After they choose, hit the next button to watch that trailer together!</p> 
 {% endif %}
 <h5> Which movie trailer would you and your partner like to watch together? </h5>
 <div class="trailers"> 
@@ -40,7 +40,7 @@ as little
     {% chat nickname=player.first_name channel=player.group.chat %}
 </div>
 </div>
-{% if player.role == "player1" %}
+
 {% next_button %}
-{% endif %}
+
 {% endblock %}
