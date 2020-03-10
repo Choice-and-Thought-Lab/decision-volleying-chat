@@ -24,7 +24,6 @@ class Introduction(Page):
 
 
 class ParticipantInfo(Page):
-    template_name = 'volleying/ParticipantInfo.html'
     form_model = 'player'
     form_fields = ['first_name']
 
@@ -33,21 +32,15 @@ class ParticipantInfo(Page):
             return 'Please enter your name'
 
 
-class ChatWaitPage(WaitPage):
-    template_name = 'volleying/WaitForChat.html'
-
+class Wait(WaitPage):
+    template_name = 'volleying/WaitPage.html'
     def after_all_players_arrive(self):
         self.is_displayed = True
 
 
-class Chat(Page):
-    def get_timeout_seconds(self):
-        return 90
-
-
 class Instructions(Page):
     def get_timeout_seconds(self):
-        return 8
+        return 10
 
 
 def sort_movies(movie):
@@ -55,15 +48,12 @@ def sort_movies(movie):
 
 class Volley(Page):
     form_model = 'group'
-    template_name = 'volleying/Volley.html'
 
     def vars_for_template(self):
         remaining_movies = self.player.group.get_remaining_movies()
-        
         question_formset = MovieFormset(queryset=MovieSelection.objects.filter(group__exact=self.player.group).filter(isRemaining__exact=True))
         for (form, model) in zip(question_formset, remaining_movies):
             form.setLabel(model.description)
-        
         return {
             'movie_formset': question_formset
         }
@@ -204,7 +194,7 @@ page_sequence = [
     Consent,
     Introduction,
     ParticipantInfo,
-    ChatWaitPage,
+    Wait,
     Instructions,
     Volley,
     TrailerSelectWaitPage,

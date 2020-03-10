@@ -22,10 +22,10 @@ as little
 <p>Once you and your partner have decided on a movie trailer, your partner will select the movie trailer that you both chose. After they choose, hit the next button to watch that trailer together!</p> 
 {% endif %}
 <h5> Which movie trailer would you and your partner like to watch together? </h5>
+
 <div class="trailers"> 
-<div class="trailerColumn"> 
- 
-{% for form in movie_formset %}
+<div class="trailerColumn">  
+  {% for form in movie_formset %}
     {% for field in form %}
         {% if field.field.widget|is_checkbox and player.role == "player1" %}
             {{ field }} {{ field.label }}
@@ -35,8 +35,8 @@ as little
             {{ field }}
         {% endif %}
     {% endfor %}
-<br>
-{% endfor %}
+  <br>
+  {% endfor %}
 </div>
 
 <div class="trailerColumn">
@@ -47,18 +47,16 @@ as little
 {% next_button %}
 
 <!-- disable multiple checkbox selection -->
-<!-- {% csrf_token %}
 <script>
-  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }
-     }
-  });
-  var data = $('form').serialize();
-  var checkboxes = document.getElementsByTagName("input"), checkboxArray = Array.from(checkboxes);
+  var inputs = document.getElementsByTagName("input"), checkboxes = [];
+
+  for(var i = 0; i < inputs.length; i++) {
+    if(inputs[i].type == "checkbox") {
+        checkboxes.push(inputs[i]) 
+    }  
+}
+
+  console.log(checkboxes);
   function handleCheck() {
     if (this.checked) {
       disableOthers(this);
@@ -68,21 +66,21 @@ as little
     }
   }
   function disableOthers(chosenBox) {
-    checkboxArray.forEach(function(checkbox) {
+    checkboxes.forEach(function(checkbox) {
       if (checkbox != chosenBox) {
         checkbox.disabled = true;
       }
     })
   }
   function enableAll() {
-    checkboxArray.forEach(function(checkbox) {
+    checkboxes.forEach(function(checkbox) {
         checkbox.disabled = false;
     }) 
   }
-  checkboxArray.forEach(function(checkbox) {
+  checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', handleCheck);
   })
-</script> -->
+</script>
 
 {% endblock %}
 
