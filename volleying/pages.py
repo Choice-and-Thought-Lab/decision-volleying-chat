@@ -47,12 +47,11 @@ class Chat(Page):
 
 class Instructions(Page):
     def get_timeout_seconds(self):
-        return 2
+        return 5
 
 
 def sort_movies(movie):
     return movie.key
-
 
 class Volley(Page):
     form_model = 'group'
@@ -61,8 +60,7 @@ class Volley(Page):
     def vars_for_template(self):
         remaining_movies = self.player.group.get_remaining_movies()
         
-        question_formset = MovieFormset(queryset=MovieSelection.objects.filter(
-            group__exact=self.player.group).filter(isRemaining__exact=True))
+        question_formset = MovieFormset(queryset=MovieSelection.objects.filter(group__exact=self.player.group).filter(isRemaining__exact=True))
         for (form, model) in zip(question_formset, remaining_movies):
             form.setLabel(model.description)
         
@@ -129,17 +127,6 @@ class Volley(Page):
         else:
             pass
 
-
-class VolleyPlayer1(Volley):
-    def is_displayed(self):
-        return (not self.player.timed_out) and self.group.volleying()
-
-
-class VolleyPlayer2(Volley):
-    def is_displayed(self):
-        return (not self.player.timed_out) and self.group.volleying() and (self.player.id_in_group == 2)
-
-
 class TrailerSelectWaitPage(WaitPage):
     template_name = 'volleying/WaitPage.html'
 
@@ -163,7 +150,7 @@ class TrailerIntro(Page):
 
 class Results(Page):
     def get_timeout_seconds(self):
-        return 200
+        return 60*2.5 
 
     def is_displayed(self):
         return not self.player.timed_out
@@ -183,8 +170,7 @@ class Results(Page):
 
 class FollowUpQuestions(Page):
     form_model = 'player'
-    form_fields = ['satisfied_trailer', 'satisfied_process',
-                   'satisfied_treated', 'willing_to', 'comment']
+    form_fields = ['own_satisfaction_a', 'own_satisfaction_b', 'partner_satisfaction_a', 'partner_satisfaction_b', 'satisfied_process', 'satisfied_treated', 'willing_to', 'comment']
 
     def is_displayed(self):
         return not self.player.timed_out

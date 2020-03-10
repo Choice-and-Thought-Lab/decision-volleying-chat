@@ -13,11 +13,12 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
+        print("Creating Sessions")
         for group_id, group in enumerate(self.get_groups()):
             group.eliminateNegative = True
             group.volleyLots = group_id % 2 == 1
             group.goal = group_id % 4 < 2
-            print(group.goal)
+            print('{} {}'.format(group_id, group.goal))
             group.chat = str(group_id) + 'chat1'
             group.chat2 = str(group_id) + 'chat2'
 
@@ -144,48 +145,45 @@ class Player(BasePlayer):
         choices=["Choose the movie that I personally would enjoy the most", "Choose the movie that I think my partner would enjoy the most"]
     )
 
-    satisfied_trailer = models.IntegerField(
-        label="How satisfied are you with the choice you came to with your partner?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+    own_satisfaction_a = models.IntegerField(
+        label="How satisfied are you with the choice you made together?",
+        choices=[[1, "1 (not at all satisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely satisfied)"]],
+        widget=widgets.RadioSelect,
+    )
+
+    own_satisfaction_b = models.IntegerField(
+        label="If you were to watch a trailer on your own, how likely would you be to choose the same movie?",
+        choices=[[1, "1 (not at all likely)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely likely)"]],
+        widget=widgets.RadioSelect,
+    )
+
+    partner_satisfaction_a = models.IntegerField(
+        label="How satisfied do you think your partner is with the choice you made together?",
+        choices=[[1, "1 (not at all satisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely satisfied)"]],
+        widget=widgets.RadioSelect,
+    )
+
+    partner_satisfaction_b = models.IntegerField(
+        label="If your partner were to watch a trailer on your own, how likely do you think they would be to choose the same movie?",
+        choices=[[1, "1 (not at all likely)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely likely)"]],
         widget=widgets.RadioSelect,
     )
 
     satisfied_process = models.IntegerField(
         label="How satisfied are you with the process by which you and your partner chose the movie trailer?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (not at all satisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely satisfied)"]],
         widget=widgets.RadioSelect,
     )
 
     satisfied_treated = models.IntegerField(
         label="How satisfied are you with how you were treated by your partner?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
+        choices=[[1, "1 (not at all satisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (extremely satisfied)"]],
         widget=widgets.RadioSelect,
     )
 
     willing_to = models.IntegerField(
         label="How willing would you be to make a decision with this partner again in the future?",
-        choices=[[1, "1 (Very Unsatisfied)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (Very Satisfied)"]],
-        widget=widgets.RadioSelect,
-    )
-
-
-    partner_experience = models.LongStringField(
-        label="Explain how your experience with your partner was:",
-    )
-
-    strategy = models.LongStringField(
-        label="Explain what your strategy was in selecting a movie trailer:",
-    )
-
-    rate_trailer = models.IntegerField(
-        label="Please rate how much you liked the trailer",
-        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        widget=widgets.RadioSelect,
-    )
-
-    likely_watch = models.IntegerField(
-        label="how likely are you to watch the movie?",
-        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        choices=[[1, "1 (not at all willing)"], [2, "2"], [3, "3"], [4, "4"], [5, "5"], [6, "6"], [7, "7 (very willing)"]],
         widget=widgets.RadioSelect,
     )
 

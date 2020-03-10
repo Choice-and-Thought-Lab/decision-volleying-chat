@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/Users/hungnguyen/Workspaces/cat-lab/decision-volleying-chat/venv/bin/python3.7"
+  "python.pythonPath": "/usr/local/bin/python3",
+  "git.ignoreLimitWarning": true
 }

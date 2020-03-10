@@ -8,10 +8,44 @@ Follow-up Questions
 
 {% block content %}
 
-    {% for field in form %}
-        {% formfield field %}
-    {% endfor %}
+  <p><strong>Assess OWN satisfaction with the choice</strong></p>
+  {% formfield player.own_satisfaction_a %}
+  {% formfield player.own_satisfaction_b %}
+  <p><strong>Assess OWN satisfaction with the choice</strong></p>
+  {% formfield player.partner_satisfaction_a %}
+  {% formfield player.partner_satisfaction_b %}
 
-    {% next_button %}
+  <p><strong>{{ form.satisfied_process.label }}</strong></p>
+  <table class="table">
+    <tr>
+      {% for choice in form.satisfied_process %}
+          <td>{{ choice }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+
+  <p><strong>{{ form.satisfied_treated.label }}</strong></p>
+  <table class="table">
+    <tr>
+      {% for choice in form.satisfied_treated %}
+          <td>{{ choice }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+
+  <p><strong>{{ form.willing_to.label }}</strong></p>
+
+  <table class="table">
+    <tr>
+      {% for choice in form.willing_to %}
+          <td>{{ choice }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+
+  <p class="mb-3"><strong>{{ form.comment.label }}</strong></p>
+  {{ form.comment }}
+
+  {% next_button %}
 
 {% endblock %}

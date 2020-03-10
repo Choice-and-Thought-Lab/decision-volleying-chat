@@ -2,6 +2,7 @@
 {% load static %}
 {% load otree static %}
 {% load checkboxfilter %}
+
 {% block title %}
 Trailer for {{player.group.last_movie_name}}
 {% endblock %}
@@ -24,10 +25,13 @@ Trailer for {{player.group.last_movie_name}}
             {% endfor %}
         {% endfor %}
 </div>
-<br>
-<br>
 
+<div class="trailerColumn">
+  {% chat nickname=player.first_name channel=player.group.chat %}
 </div>
+</div>
+<br>
+<br>
 {% endblock %}
 
 

@@ -52,3 +52,4 @@ SECRET_KEY = 'jzx@giyu#^y$%sa7d)9v5k30&dl_z(%z55kfbgng@)eo&yqbd8'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 INSTALLED_APPS = ['otree', 'volleying']
+

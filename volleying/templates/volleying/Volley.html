@@ -3,7 +3,8 @@
 {% load otree static %}
 {% load static %}
 
-{% block content %}
+{% block content %} 
+
 
 <p> Take a few minutes to chat with your partner and choose a movie trailer to watch together from the list provided. </p>
 
@@ -23,6 +24,7 @@ as little
 <h5> Which movie trailer would you and your partner like to watch together? </h5>
 <div class="trailers"> 
 <div class="trailerColumn"> 
+ 
 {% for form in movie_formset %}
     {% for field in form %}
         {% if field.field.widget|is_checkbox and player.role == "player1" %}
@@ -36,12 +38,26 @@ as little
 <br>
 {% endfor %}
 </div>
+
 <div class="trailerColumn">
     {% chat nickname=player.first_name channel=player.group.chat %}
 </div>
 </div>
 
+{% next_button %}
+
+<!-- disable multiple checkbox selection -->
+<!-- {% csrf_token %}
 <script>
+  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+     }
+  });
+  var data = $('form').serialize();
   var checkboxes = document.getElementsByTagName("input"), checkboxArray = Array.from(checkboxes);
   function handleCheck() {
     if (this.checked) {
@@ -66,9 +82,8 @@ as little
   checkboxArray.forEach(function(checkbox) {
     checkbox.addEventListener('change', handleCheck);
   })
-</script>
-
-{% next_button %}
+</script> -->
 
 {% endblock %}
+
 
