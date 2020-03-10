@@ -47,7 +47,7 @@ class Chat(Page):
 
 class Instructions(Page):
     def get_timeout_seconds(self):
-        return 5
+        return 8
 
 
 def sort_movies(movie):
